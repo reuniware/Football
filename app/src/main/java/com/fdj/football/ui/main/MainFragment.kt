@@ -29,10 +29,10 @@ class MainFragment : Fragment() {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProvider(this)[MainViewModel::class.java]
         // TODO: Use the ViewModel
-        viewModel.maFonction()
+        viewModel.getAllLeagues()
     }
 
-//    private val adapter = GalleryAdapter()
+    //private val adapter = GalleryAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
