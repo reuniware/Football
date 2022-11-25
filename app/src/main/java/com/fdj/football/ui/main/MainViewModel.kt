@@ -34,6 +34,7 @@ interface FootballService {
     companion object {
         private const val BASE_URL = "https://api.unsplash.com/"
 
+        @Provides
         fun create(): FootballService {
             val logger = HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BASIC }
 
