@@ -1,6 +1,7 @@
 package com.fdj.football.ui.main
 
 import androidx.lifecycle.ViewModel
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -10,6 +11,8 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.http.GET
+import retrofit2.http.Query
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -17,20 +20,27 @@ import javax.inject.Singleton
 class MainViewModel @Inject constructor(
     var repository: FootballRepository,
 ) : ViewModel() {
-    fun getAllLeagues() {
+    suspend fun getAllLeagues() {
         repository.getAllLeagues()
     }
 }
 
 class FootballRepository @Inject constructor(private val service: FootballService) {
-    fun getAllLeagues() {
-
+    suspend fun getAllLeagues() {
+        val resp = service.getAllLeagues(query = "testquery", test = "test")
     }
 }
 
 @InstallIn(SingletonComponent::class)
 @Module
 interface FootballService {
+
+    @GET("/")
+    suspend fun getAllLeagues(
+        @Query("query") query: String,
+        @Query("test") test: String
+    ):String
+
     companion object {
         private const val BASE_URL = "https://api.unsplash.com/"
 
