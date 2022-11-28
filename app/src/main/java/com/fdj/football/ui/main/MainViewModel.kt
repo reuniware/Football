@@ -27,24 +27,20 @@ class MainViewModel @Inject constructor(
 
 class FootballRepository @Inject constructor(private val service: FootballService) {
     suspend fun getAllLeagues() {
-        val resp = service.getAllLeagues(query = "testquery", test = "test")
+        val resp = service.getAllLeagues(query = "testquery")
     }
 }
 
-@InstallIn(SingletonComponent::class)
-@Module
 interface FootballService {
 
     @GET("/")
     suspend fun getAllLeagues(
         @Query("query") query: String,
-        @Query("test") test: String
     ):String
 
     companion object {
         private const val BASE_URL = "https://api.unsplash.com/"
 
-        @Provides
         fun create(): FootballService {
             val logger = HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BASIC }
 

@@ -14,6 +14,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.fdj.football.R
 import com.google.gson.annotations.SerializedName
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint
@@ -29,7 +32,9 @@ class MainFragment : Fragment() {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProvider(this)[MainViewModel::class.java]
         // TODO: Use the ViewModel
-        viewModel.getAllLeagues()
+        CoroutineScope(Dispatchers.IO).launch {
+            viewModel.getAllLeagues()
+        }
     }
 
     //private val adapter = GalleryAdapter()
