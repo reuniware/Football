@@ -31,7 +31,7 @@ class MainViewModel @Inject constructor(
 
 class FootballRepository @Inject constructor(private val service: FootballService) {
     suspend fun getAllLeagues() {
-        val resp = service.getAllLeagues(query = "testquery")
+        val resp = service.getAllLeagues(/*query = "testquery"*/)
         Log.d("resp", resp.toString())
     }
 }
@@ -40,10 +40,10 @@ interface FootballService {
 
     @GET("all_leagues.php")
     suspend fun getAllLeagues(
-        @Query("query") query: String,
-        @Query("page") page: Int = 1,
-        @Query("per_page") perPage: Int = 5,
-        @Query("client_id") clientId: String = "null"
+//        @Query("query") query: String,
+//        @Query("page") page: Int = 1,
+//        @Query("per_page") perPage: Int = 5,
+//        @Query("client_id") clientId: String = "null"
     ):FootballSearchResponse
 
     companion object {
