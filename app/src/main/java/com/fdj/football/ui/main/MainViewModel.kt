@@ -1,5 +1,6 @@
 package com.fdj.football.ui.main
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -31,12 +32,13 @@ class MainViewModel @Inject constructor(
 class FootballRepository @Inject constructor(private val service: FootballService) {
     suspend fun getAllLeagues() {
         val resp = service.getAllLeagues(query = "testquery")
+        Log.d("resp", resp.toString())
     }
 }
 
 interface FootballService {
 
-    @GET("/")
+    @GET("all_leagues.php")
     suspend fun getAllLeagues(
         @Query("query") query: String,
         @Query("page") page: Int = 1,
@@ -45,7 +47,8 @@ interface FootballService {
     ):FootballSearchResponse
 
     companion object {
-        private const val BASE_URL = "https://api.unsplash.com/"
+        //private const val BASE_URL = "https://www.thesportsdb.com/api/v1/json/50130162/all_leagues.php"
+        private const val BASE_URL = "https://www.thesportsdb.com/api/v1/json/50130162/"
 
         fun create(): FootballService {
             val logger = HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY }
@@ -67,29 +70,16 @@ interface FootballService {
 }
 
 data class FootballSearchResponse(
-    @field:SerializedName("results") val results: List<UnsplashPhoto>,
-    @field:SerializedName("total_pages") val totalPages: Int
+    @field:SerializedName("leagues") val results: List<League>,
 )
 
-data class UnsplashPhoto(
-    @field:SerializedName("id") val id: String,
-    @field:SerializedName("urls") val urls: UnsplashPhotoUrls,
-    @field:SerializedName("user") val user: UnsplashUser
+data class League(
+    @field:SerializedName("idLeague") val id: String,
+    @field:SerializedName("strLeague") val league: String,
+    @field:SerializedName("strSport") val sport: String,
+    @field:SerializedName("strLeagueAlternate") val leagueAlternate: String,
 )
 
-data class UnsplashPhotoUrls(
-    @field:SerializedName("small") val small: String
-)
-
-data class UnsplashUser(
-    @field:SerializedName("name") val name: String,
-    @field:SerializedName("username") val username: String
-) {
-    val attributionUrl: String
-        get() {
-            return "https://unsplash.com/$username?utm_source=sunflower&utm_medium=referral"
-        }
-}
 
 
 
