@@ -31,6 +31,7 @@ class MainViewModel @Inject constructor(
     suspend fun getAllLeagues() {
         val leagues = repository.getAllLeagues()
         leaguesLiveData = MutableLiveData(leagues)
+        leaguesLiveData.postValue(leagues)
     }
 }
 

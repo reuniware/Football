@@ -50,10 +50,14 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        //val view = LayoutInflater.from(parent.context).inflate(R.layout.list_item_league, parent, false)
-
         val recyclerView: RecyclerView? = view.findViewById(R.id.recyclerViewListOfLeagues)
         recyclerView?.adapter = adapter
+
+        viewModel.leaguesLiveData.observe(viewLifecycleOwner) {
+            it.let {
+                adapter.submitList(it as MutableList<League>)
+            }
+        }
 
     }
 
@@ -73,8 +77,8 @@ class LeaguesAdapter(private val onClick: (League) -> Unit) : ListAdapter<League
     }
 
     override fun onBindViewHolder(holder: LeagueViewHolder, position: Int) {
-        val information = getItem(position)
-        holder.bind(information)
+        val league = getItem(position)
+        holder.bind(league)
     }
 }
 
