@@ -47,6 +47,7 @@ class MainFragment : Fragment() {
     }
 
     private val adapter = LeaguesAdapter { league -> adapterOnClick(league) }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -55,7 +56,7 @@ class MainFragment : Fragment() {
 
         viewModel.leaguesLiveData.observe(viewLifecycleOwner) {
             it.let {
-                adapter.submitList(it as MutableList<League>)
+                adapter.submitList(it as ArrayList<League>)
             }
         }
 

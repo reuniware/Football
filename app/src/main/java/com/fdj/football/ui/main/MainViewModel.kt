@@ -12,6 +12,9 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -30,8 +33,9 @@ class MainViewModel @Inject constructor(
 
     suspend fun getAllLeagues() {
         val leagues = repository.getAllLeagues()
-        leaguesLiveData = MutableLiveData(leagues)
-        leaguesLiveData.postValue(leagues)
+        CoroutineScope(Dispatchers.Main).launch {
+            leaguesLiveData.postValue(leagues)
+        }
     }
 }
 
