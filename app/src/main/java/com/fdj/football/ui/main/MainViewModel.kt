@@ -1,6 +1,7 @@
 package com.fdj.football.ui.main
 
 import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -24,15 +25,24 @@ import javax.inject.Singleton
 class MainViewModel @Inject constructor(
     var repository: FootballRepository,
 ) : ViewModel() {
+
+    var leaguesLiveData = MutableLiveData<ArrayList<League>>()
+
     suspend fun getAllLeagues() {
-        repository.getAllLeagues()
+        val leagues = repository.getAllLeagues()
+        leaguesLiveData = MutableLiveData(leagues)
     }
 }
 
 class FootballRepository @Inject constructor(private val service: FootballService) {
-    suspend fun getAllLeagues() {
+    suspend fun getAllLeagues(): ArrayList<League> {
         val resp = service.getAllLeagues(/*query = "testquery"*/)
         Log.d("resp", resp.toString())
+        val listOfLeagues = ArrayList<League>()
+        resp.results.forEach {
+            listOfLeagues.add(League(it.id,it.league, it.sport, it.leagueAlternate))
+        }
+        return listOfLeagues
     }
 }
 
@@ -77,7 +87,7 @@ data class League(
     @field:SerializedName("idLeague") val id: String,
     @field:SerializedName("strLeague") val league: String,
     @field:SerializedName("strSport") val sport: String,
-    @field:SerializedName("strLeagueAlternate") val leagueAlternate: String,
+    @field:SerializedName("strLeagueAlternate") val leagueAlternate: String?,
 )
 
 
