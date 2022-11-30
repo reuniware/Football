@@ -31,8 +31,14 @@ class MainViewModel @Inject constructor(
 
     var leaguesLiveData = MutableLiveData<ArrayList<League>>()
 
+    private var allLeaguesDownloaded = false
     suspend fun getAllLeagues() {
+        if (allLeaguesDownloaded)
+            return
         val leagues = repository.getAllLeagues()
+        if (leagues.size>0) {
+            allLeaguesDownloaded = true
+        }
         CoroutineScope(Dispatchers.Main).launch {
             leaguesLiveData.postValue(leagues)
         }
