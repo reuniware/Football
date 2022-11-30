@@ -1,28 +1,21 @@
 package com.fdj.football.ui.main
 
-import android.content.Intent
-import android.net.Uri
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-//import android.widget.SearchView
 import android.widget.TextView
 import androidx.appcompat.widget.SearchView
-import androidx.lifecycle.viewmodel.viewModelFactory
-import androidx.paging.PagingDataAdapter
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.fdj.football.R
-import com.google.gson.annotations.SerializedName
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlin.concurrent.fixedRateTimer
 
 
 @AndroidEntryPoint
