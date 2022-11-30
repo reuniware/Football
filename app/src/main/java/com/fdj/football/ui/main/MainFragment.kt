@@ -11,6 +11,7 @@ import android.view.ViewGroup
 //import android.widget.SearchView
 import android.widget.TextView
 import androidx.appcompat.widget.SearchView
+import androidx.lifecycle.viewmodel.viewModelFactory
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -21,6 +22,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlin.concurrent.fixedRateTimer
 
 
 @AndroidEntryPoint
@@ -71,14 +73,31 @@ class MainFragment : Fragment() {
             override fun onQueryTextChange(newText: String): Boolean {
                 // inside on query text change method we are
                 // calling a method to filter our recycler view.
-                //filter(newText)
+                filter(newText)
                 return false
             }
         })
+    }
 
+    lateinit var initialLeagues: List<League>
+    private fun filter(text: String) {
+        if (!this::initialLeagues.isInitialized && adapter.currentList.size>0) {
+            initialLeagues = adapter.currentList
+        } else {
+            if (this::initialLeagues.isInitialized) {
+                val filteredLeagues = ArrayList<League>()
+                initialLeagues.forEach {
+                    if (it.league.lowercase().contains(text.lowercase())) {
+                        filteredLeagues.add(it)
+                    }
+                }
+                adapter.submitList(filteredLeagues)
+            }
+         }
     }
 
 }
+
 
 private fun adapterOnClick(league: League) {
 //        val intent = Intent(this, LeagueDetailActivity()::class.java)
