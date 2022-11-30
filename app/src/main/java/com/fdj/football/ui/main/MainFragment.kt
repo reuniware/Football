@@ -70,9 +70,7 @@ class MainFragment : Fragment() {
 
             override fun onQueryTextChange(newText: String): Boolean {
                 viewModel.currentSearchText = newText.trim()
-                if (viewModel.currentSearchText != "") {
-                    filter(viewModel.currentSearchText)
-                }
+                filter(viewModel.currentSearchText)
                 return false
             }
         })
@@ -85,7 +83,7 @@ class MainFragment : Fragment() {
             viewModel.initialLeagues = adapter.currentList.toList() as ArrayList<League>
         } else {
             if (viewModel.initialLeagues.isNotEmpty()) {
-                Log.d("test", "filtering")
+//                Log.d("test", "filtering")
                 val filteredLeagues = ArrayList<League>()
                 viewModel.initialLeagues.forEach {
                     if (it.league.lowercase().contains(text.lowercase())) {
