@@ -30,6 +30,8 @@ class MainViewModel @Inject constructor(
 ) : ViewModel() {
 
     var leaguesLiveData = MutableLiveData<ArrayList<League>>()
+    var currentSearchText: String = ""
+    var initialLeagues = ArrayList<League>()
 
     private var allLeaguesDownloaded = false
     suspend fun getAllLeagues() {

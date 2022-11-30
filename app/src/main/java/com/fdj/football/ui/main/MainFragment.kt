@@ -1,6 +1,7 @@
 package com.fdj.football.ui.main
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -54,6 +55,10 @@ class MainFragment : Fragment() {
         viewModel.leaguesLiveData.observe(viewLifecycleOwner) {
             it.let {
                 adapter.submitList(it as ArrayList<League>)
+//                Log.d("test", "currentSearchText=${viewModel.currentSearchText}")
+                if (viewModel.currentSearchText != "") {
+                    filter(viewModel.currentSearchText)
+                }
             }
         }
 
@@ -64,22 +69,25 @@ class MainFragment : Fragment() {
             }
 
             override fun onQueryTextChange(newText: String): Boolean {
-                // inside on query text change method we are
-                // calling a method to filter our recycler view.
-                filter(newText)
+                viewModel.currentSearchText = newText.trim()
+                if (viewModel.currentSearchText != "") {
+                    filter(viewModel.currentSearchText)
+                }
                 return false
             }
         })
+
     }
 
-    lateinit var initialLeagues: List<League>
+//    private lateinit var initialLeagues: List<League>
     private fun filter(text: String) {
-        if (!this::initialLeagues.isInitialized && adapter.currentList.size>0) {
-            initialLeagues = adapter.currentList
+        if (viewModel.initialLeagues.isEmpty() && adapter.currentList.size>0) {
+            viewModel.initialLeagues = adapter.currentList.toList() as ArrayList<League>
         } else {
-            if (this::initialLeagues.isInitialized) {
+            if (viewModel.initialLeagues.isNotEmpty()) {
+                Log.d("test", "filtering")
                 val filteredLeagues = ArrayList<League>()
-                initialLeagues.forEach {
+                viewModel.initialLeagues.forEach {
                     if (it.league.lowercase().contains(text.lowercase())) {
                         filteredLeagues.add(it)
                     }
