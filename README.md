@@ -1,24 +1,24 @@
 Ce code définit une classe FootballRepository qui est responsable de récupérer les données liées aux ligues de football à partir d'un service externe appelé FootballService.
-Voici une explication détaillée du code :
+Voici une explication détaillée du code :<br/>
 kotlin
 class FootballRepository @Inject constructor(private val service: FootballService)
 
-Cette ligne définit la classe FootballRepository et utilise l'annotation @Inject pour injecter une instance de FootballService dans le constructeur. Cela permet de découpler la classe FootballRepository de la création de l'instance de FootballService, facilitant ainsi les tests et la maintenance.
+Cette ligne définit la classe FootballRepository et utilise l'annotation @Inject pour injecter une instance de FootballService dans le constructeur. Cela permet de découpler la classe FootballRepository de la création de l'instance de FootballService, facilitant ainsi les tests et la maintenance.<br/>
 kotlin
 suspend fun getAllLeagues(): ArrayList<League>
 
-Cette fonction suspendue (coroutine) est responsable de récupérer toutes les ligues de football disponibles. Elle retourne une ArrayList d'objets League.
+Cette fonction suspendue (coroutine) est responsable de récupérer toutes les ligues de football disponibles. Elle retourne une ArrayList d'objets League.<br/>
 kotlin
 val resp = service.getAllLeagues()
 val listOfLeagues = ArrayList<League>()
 
-Ces lignes appellent la méthode getAllLeagues() du service FootballService pour obtenir les données des ligues, et initialise une liste vide listOfLeagues pour stocker les objets League.
+Ces lignes appellent la méthode getAllLeagues() du service FootballService pour obtenir les données des ligues, et initialise une liste vide listOfLeagues pour stocker les objets League.<br/>
 kotlin
 resp.results.forEach {
     listOfLeagues.add(League(it.id, it.league, it.sport, it.leagueAlternate))
 }
 
-Cette boucle forEach itère sur les résultats obtenus du service FootballService. Pour chaque résultat, elle crée un nouvel objet League avec les propriétés id, league, sport et leagueAlternate, et l'ajoute à la liste listOfLeagues.
+Cette boucle forEach itère sur les résultats obtenus du service FootballService. Pour chaque résultat, elle crée un nouvel objet League avec les propriétés id, league, sport et leagueAlternate, et l'ajoute à la liste listOfLeagues.<br/>
 kotlin
 return listOfLeagues
 
